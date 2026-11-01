@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0b1020">
+  <title>Git Commands — Practical Notes</title>
+  <style>
+    /* :root {
+      color-scheme: dark;
+      --bg: #0b1020;
+      --surface: #11182a;
+      --surface2: #172136;
+      --border: #26334d;
+      --text: #e8eefb;
+      --muted: #9aa9c2;
+      --accent: #8b9cff;
+      --accent2: #63e6be;
+      --code: #0a0f1c;
+      --danger: #ffb4a9;
+      --shadow: 0 18px 50px #0003;
+    } */
+
+    :root {
+      color-scheme: light;
+      --bg: #fafaf9;
+      --surface: #ffffff;
+      --surface2: #f5f5f4;
+      --border: #e7e5e4;
+      --text: #1c1917;
+      --muted: #57534e;
+      --accent: #ea580c;
+      --accent2: #0f766e;
+      --code: #f5f5f4;
+      --danger: #b42318;
+      --shadow: 0 8px 30px #1c19170a;
+    }
+
+    * {
+      box-sizing: border-box
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 88px
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font: 15px/1.65 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif
+    }
+
+    button,
+    input {
+      font: inherit
+    }
+
+    button {
+      cursor: pointer
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      padding: 0 26px;
+      background: color-mix(in srgb, var(--bg) 88%, transparent);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border)
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 750;
+      letter-spacing: -.03em;
+      white-space: nowrap
+    }
+
+    .brand-mark {
+      width: 34px;
+      height: 34px;
+      border-radius: 11px;
+      background: linear-gradient(135deg, #9aa8ff, #5d6df2);
+      display: grid;
+      place-items: center;
+      color: #10162a;
+      font-weight: 900;
+      font-size: 16px
+    }
+
+    .brand small {
+      display: block;
+      color: var(--muted);
+      font-weight: 500;
+      font-size: 11px;
+      letter-spacing: .02em
+    }
+
+    .top-actions {
+      margin-left: auto;
+      display: flex;
+      align-items: center;
+      gap: 10px
+    }
+
+    .icon-btn {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      background: var(--surface);
+      color: var(--text);
+      display: grid;
+      place-items: center
+    }
+
+    .icon-btn:hover {
+      border-color: var(--accent)
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 264px minmax(0, 1fr);
+      max-width: 1440px;
+      margin: auto
+    }
+
+    .sidebar {
+      height: calc(100vh - 66px);
+      position: sticky;
+      top: 66px;
+      overflow: auto;
+      padding: 26px 18px 30px;
+      border-right: 1px solid var(--border)
+    }
+
+    .side-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .13em;
+      color: var(--muted);
+      font-weight: 750;
+      padding: 0 12px;
+      margin: 0 0 12px
+    }
+
+    .search-wrap {
+      position: relative;
+      margin: 0 4px 24px
+    }
+
+    .search-wrap input {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 11px 36px 11px 12px;
+      color: var(--text);
+      outline: none
+    }
+
+    .search-wrap input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent)
+    }
+
+    .search-icon {
+      position: absolute;
+      right: 12px;
+      top: 10px;
+      color: var(--muted)
+    }
+
+    .nav {
+      display: grid;
+      gap: 4px
+    }
+
+    .nav a {
+      display: flex;
+      gap: 11px;
+      align-items: center;
+      padding: 8px 12px;
+      border-radius: 9px;
+      color: var(--muted);
+      font-size: 13px;
+      transition: .15s
+    }
+
+    .nav a span {
+      font-size: 11px;
+      opacity: .65;
+      font-variant-numeric: tabular-nums
+    }
+
+    .nav a:hover {
+      background: var(--surface2);
+      color: var(--text)
+    }
+
+    .nav a.active {
+      background: color-mix(in srgb, var(--accent) 14%, var(--surface));
+      color: var(--accent);
+      font-weight: 650
+    }
+
+    .sidebar-note {
+      margin: 26px 5px 0;
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      background: var(--surface)
+    }
+
+    .sidebar-note strong {
+      font-size: 12px;
+      display: block;
+      margin-bottom: 4px
+    }
+
+    .sidebar-note p {
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0
+    }
+
+    main {
+      min-width: 0;
+      padding: 42px clamp(20px, 5vw, 72px) 80px;
+      max-width: 1060px
+    }
+
+    .hero {
+      padding: 28px 0 34px;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 32px
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent2);
+      font-size: 12px;
+      font-weight: 750;
+      text-transform: uppercase;
+      letter-spacing: .12em
+    }
+
+    .eyebrow:before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--accent2);
+      border-radius: 50%
+    }
+
+    h1 {
+      font-size: clamp(34px, 5vw, 52px);
+      line-height: 1.12;
+      letter-spacing: -.055em;
+      margin: 14px 0 14px
+    }
+
+    .hero p {
+      max-width: 670px;
+      color: var(--muted);
+      font-size: 17px;
+      margin: 0
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 22px
+    }
+
+    .pill {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--muted);
+      border-radius: 99px;
+      padding: 5px 11px;
+      font-size: 12px
+    }
+
+    section.doc-section {
+      margin: 0 0 42px;
+      scroll-margin-top: 90px
+    }
+
+    .section-head {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      margin-bottom: 18px
+    }
+
+    .section-number {
+      width: 35px;
+      height: 35px;
+      flex: 0 0 35px;
+      border-radius: 11px;
+      display: grid;
+      place-items: center;
+      background: var(--surface2);
+      color: var(--accent);
+      font-weight: 750;
+      font-size: 13px
+    }
+
+    h2 {
+      font-size: 23px;
+      line-height: 1.25;
+      letter-spacing: -.03em;
+      margin: 3px 0 4px
+    }
+
+    .section-head p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px
+    }
+
+    .topic {
+      margin: 20px 0 0
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 0 0 8px;
+      letter-spacing: -.01em
+    }
+
+    p {
+      margin: 7px 0 12px
+    }
+
+    p,
+    li {
+      color: var(--muted)
+    }
+
+    .codebox {
+      position: relative;
+      margin: 10px 0 12px;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+      overflow: hidden;
+      background: var(--code)
+    }
+
+    .code-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 11px
+    }
+
+    .code-top .dots {
+      display: flex;
+      gap: 5px
+    }
+
+    .code-top .dots i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #52617b
+    }
+
+    .copy {
+      border: 1px solid var(--border);
+      background: var(--surface2);
+      color: var(--text);
+      border-radius: 7px;
+      padding: 4px 9px;
+      font-size: 11px
+    }
+
+    .copy:hover {
+      border-color: var(--accent)
+    }
+
+    pre {
+      margin: 0;
+      padding: 15px 17px;
+      overflow: auto;
+      color: var(--text);
+      font: 13px/1.7 ui-monospace, SFMono-Regular, Consolas, monospace;
+      tab-size: 2
+    }
+
+    code.inline {
+      font: 12px ui-monospace, SFMono-Regular, Consolas, monospace;
+      background: var(--surface2);
+      padding: 2px 5px;
+      border-radius: 5px;
+      color: var(--accent)
+    }
+
+    .note {
+      border: 1px solid color-mix(in srgb, var(--accent) 32%, var(--border));
+      background: color-mix(in srgb, var(--accent) 7%, var(--surface));
+      padding: 13px 15px;
+      border-radius: 11px;
+      margin: 13px 0;
+      color: var(--muted);
+      font-size: 13px
+    }
+
+    .note strong {
+      color: var(--text)
+    }
+
+    .note.warning {
+      border-color: color-mix(in srgb, var(--danger) 40%, var(--border));
+      background: color-mix(in srgb, var(--danger) 7%, var(--surface))
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 12px 0 16px;
+      font-size: 13px
+    }
+
+    th,
+    td {
+      text-align: left;
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top
+    }
+
+    th {
+      color: var(--text);
+      font-weight: 700;
+      background: var(--surface)
+    }
+
+    td {
+      color: var(--muted)
+    }
+
+    ul {
+      padding-left: 21px
+    }
+
+    li {
+      padding: 3px 0
+    }
+
+    .footer {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      color: var(--muted);
+      font-size: 12px
+    }
+
+    .no-results {
+      display: none;
+      padding: 24px;
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      color: var(--muted);
+      text-align: center
+    }
+
+    .mobile-menu {
+      display: none
+    }
+
+    @media(max-width:900px) {
+      .layout {
+        grid-template-columns: 1fr
+      }
+
+      .sidebar {
+        display: none;
+        position: fixed;
+        z-index: 30;
+        top: 66px;
+        left: 0;
+        bottom: 0;
+        width: min(300px, 86vw);
+        height: auto;
+        background: var(--bg);
+        box-shadow: var(--shadow);
+        border-right: 1px solid var(--border)
+      }
+
+      .sidebar.open {
+        display: block
+      }
+
+      .mobile-menu {
+        display: grid
+      }
+
+      main {
+        padding: 28px 22px 60px
+      }
+    }
+
+    @media(max-width:520px) {
+      .topbar {
+        padding: 0 14px;
+        gap: 10px
+      }
+
+      .brand small {
+        display: none
+      }
+
+      .top-actions {
+        gap: 7px
+      }
+
+      .hero {
+        padding-top: 18px
+      }
+
+      .hero p {
+        font-size: 15px
+      }
+
+      h2 {
+        font-size: 21px
+      }
+
+      pre {
+        font-size: 12px;
+        padding: 13px
+      }
+
+      table {
+        display: block;
+        overflow-x: auto
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <header class="topbar">
+    <button class="icon-btn mobile-menu" id="menuBtn" aria-label="Open navigation" title="Open navigation">☰</button>
+    <a class="brand" href="#top" aria-label="Git Notes home">
+      <span class="brand-mark">G</span>
+      <span>Git Notes<small>Practical command guide</small></span>
+    </a>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" aria-label="Toggle light or dark theme" title="Toggle theme">☼</button>
+    </div>
+  </header> -->
+
+  <div class="layout" id="top">
+    <aside class="sidebar" id="sidebar">
+      <!-- <div class="search-wrap">
+        <input id="search" type="search" placeholder="Search commands…" aria-label="Search documentation">
+        <span class="search-icon">⌕</span>
+      </div>
+      <p class="side-label">Documentation</p> -->
+      <nav class="nav" id="nav">
+        <hr>
+        <p class="side-label">Git - Part 1</p>
+        <a href="#s1"><span>01</span> Initialize repository</a>
+        <a href="#s2"><span>02</span> Track files</a>
+        <a href="#s3"><span>03</span> Configure identity</a>
+        <a href="#s4"><span>04</span> Create commits</a>
+        <a href="#s5"><span>05</span> View history</a>
+        <a href="#s6"><span>06</span> Amend a commit</a>
+        <a href="#s7"><span>07</span> Restore changes</a>
+        <a href="#s8"><span>08</span> Switch commits</a>
+        <a href="#s9"><span>09</span> Detached HEAD</a>
+        <a href="#s10"><span>10</span> Restore a version</a>
+        <a href="#s11"><span>11</span> .gitignore</a>
+        <a href="#s12"><span>12</span> Remove Git</a>
+        <a href="#s13"><span>13</span> Common mistakes</a>
+        <hr>
+        <p class="side-label">Git - Part 2</p>
+        <a href="#s14"><span>14</span> Create branches</a>
+        <a href="#s15"><span>15</span> Switch branches</a>
+        <a href="#s16"><span>16</span> Merge branches</a>
+        <a href="#s17"><span>17</span> Merge conflicts</a>
+        <a href="#s18"><span>18</span> Delete branches</a>
+        <a href="#s19"><span>19</span> Rename branches</a>
+        <a href="#s20"><span>20</span> Branch history</a>
+        <a href="#s21"><span>21</span> Common branch mistakes</a>
+        <a href="#s22"><span>22</span> View branch history</a>
+        <a href="#s23"><span>23</span> Remember</a>
+      </nav>
+      <div class="sidebar-note"><strong>Quick reminder</strong>
+        <p>Stage with <code class="inline">git add</code>, save with <code class="inline">git commit</code>, inspect
+          with <code class="inline">git status</code>.</p>
+      </div>
+    </aside>
+
+    <main>
+      <div class="hero">
+        <div class="eyebrow">Git reference · Beginner friendly</div>
+        <h1>Git Commands Documentation</h1>
+        <p>A clear, hands-on reference for tracking files, saving versions, exploring history, and safely restoring your
+          work.</p>
+        <div class="hero-meta"><span class="pill">23 topics</span><span class="pill">Copy-ready commands</span><span
+            class="pill">No dependencies</span></div>
+      </div>
+
+      <div class="no-results" id="noResults">No matching topics. Try a different command or keyword.</div>
+
+      <section class="doc-section" id="s1">
+        <br>
+        <div class="section-head"><span class="section-number">01</span>
+          <div>
+            <h2>Initialize a Git Repository</h2>
+            <p>Start tracking a project with Git.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Check Git status</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git status</code></pre>
+          </div>
+          <p>Shows the current branch and changes in your project.</p>
+        </div>
+        <div class="topic">
+          <h3>Initialize Git</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git init</code></pre>
+          </div>
+          <p>Creates a new Git repository in the current directory.</p>
+        </div>
+        <div class="topic">
+          <h3>Rename the default branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch -m main</code></pre>
+          </div>
+          <p>Renames the current branch to <code class="inline">main</code>.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s2">
+        <br>
+        <div class="section-head"><span class="section-number">02</span>
+          <div>
+            <h2>Track Files</h2>
+            <p>Choose which changes Git should include in the next commit.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Check untracked files</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git status</code></pre>
+          </div>
+          <p>Untracked files are files Git knows about but is not tracking yet.</p>
+        </div>
+        <div class="topic">
+          <h3>Add a specific file</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add config.js</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Add a folder</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add src/</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Add all changes</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add .</code></pre>
+          </div>
+          <p>Stages changes in the current directory and its subdirectories.</p>
+        </div>
+        <div class="topic">
+          <h3>Unstage changes</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git reset
+git reset config.js</code></pre>
+          </div>
+          <p>The first command unstages all staged changes. The second unstages only <code
+              class="inline">config.js</code>. Your working files remain unchanged.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s3">
+        <br>
+        <div class="section-head"><span class="section-number">03</span>
+          <div>
+            <h2>Configure Git Username and Email</h2>
+            <p>Set the author details recorded in commits.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Set your global identity</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal · demo values</span><button class="copy">Copy</button></div>
+            <pre><code>git config --global user.name "Demo User"
+git config --global user.email "demo@example.com"</code></pre>
+          </div>
+          <p>Applies to all repositories unless a repository-specific setting overrides it.</p>
+        </div>
+        <div class="topic">
+          <h3>Set identity for one repository</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Run inside the repository</span><button class="copy">Copy</button></div>
+            <pre><code>git config user.name "Demo User"
+git config user.email "demo@example.com"</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>View configuration</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git config --list</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Create a shortcut for status</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git config --global alias.s "status"
+
+# Use the shortcut
+git s</code></pre>
+          </div>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s4">
+        <br>
+        <div class="section-head"><span class="section-number">04</span>
+          <div>
+            <h2>Create Commits</h2>
+            <p>A commit saves a snapshot of staged changes.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Create your first commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add .
+git commit -m "Initial commit"</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Create another commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add .
+git commit -m "Update project"</code></pre>
+          </div>
+          <p>Use a clear message that describes what changed.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s5">
+        <br>
+        <div class="section-head"><span class="section-number">05</span>
+          <div>
+            <h2>View Commit History</h2>
+            <p>Inspect saved versions and how they connect.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Show commit history</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git log</code></pre>
+          </div>
+          <p>Shows commit IDs, authors, dates, and messages.</p>
+        </div>
+        <div class="topic">
+          <h3>Show history from all references</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git log --all</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Show history as a graph</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git log --all --graph</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Show a shorter history</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git log --oneline</code></pre>
+          </div>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s6">
+        <br>
+        <div class="section-head"><span class="section-number">06</span>
+          <div>
+            <h2>Modify the Previous Commit</h2>
+            <p>Amend the most recent commit.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Amend the previous commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add .
+git commit --amend -m "Updated commit message"</code></pre>
+          </div>
+          <p>Replaces the previous commit with a new one containing the staged changes and updated message.</p>
+          <div class="note"><strong>Heads up:</strong> Amending changes the commit ID. Avoid amending commits already
+            shared with others unless you understand the effects.</div>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s7">
+        <br>
+        <div class="section-head"><span class="section-number">07</span>
+          <div>
+            <h2>Restore Changes</h2>
+            <p>Unstage files or discard local edits.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Restore a file from staging</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git restore --staged config.js</code></pre>
+          </div>
+          <p>Unstages the file but keeps its changes in your working directory.</p>
+        </div>
+        <div class="topic">
+          <h3>Discard changes in a file</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git restore config.js</code></pre>
+          </div>
+          <p>Restores the file from the staging area, or from the last commit if it is not staged.</p>
+          <div class="note warning"><strong>Warning:</strong> This can permanently discard uncommitted changes.</div>
+        </div>
+        <div class="topic">
+          <h3>Restore all tracked files in the current directory</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git restore .</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Restore a file from an older commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git restore --source=&lt;commit-id&gt; -- config.js
+
+# Example: restore from the previous commit
+git restore --source=HEAD~1 -- config.js</code></pre>
+          </div>
+          <p>Restores that file without moving the current branch.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s8">
+        <br>
+        <div class="section-head"><span class="section-number">08</span>
+          <div>
+            <h2>Switch Between Commits</h2>
+            <p>Inspect a past snapshot or move between branches.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Switch to a specific commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git checkout &lt;commit-id&gt;
+
+# Example
+git checkout a1b2c3d</code></pre>
+          </div>
+          <p>Lets you view the project at that commit.</p>
+        </div>
+        <div class="topic">
+          <h3>Return to the main branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git checkout main</code></pre>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Use the newer switch command</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch main
+git switch -</code></pre>
+          </div>
+          <p>The first switches to <code class="inline">main</code>; the second returns to the previous branch.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s9">
+        <br>
+        <div class="section-head"><span class="section-number">09</span>
+          <div>
+            <h2>Understand Detached HEAD</h2>
+            <p>A detached HEAD means you checked out a commit directly, not a branch.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Enter detached HEAD state</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git checkout &lt;commit-id&gt;</code></pre>
+          </div>
+          <p>You can inspect the project and experiment. New commits made here are not automatically connected to a
+            branch.</p>
+        </div>
+        <div class="topic">
+          <h3>Create a branch to keep your work</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch -c experiment</code></pre>
+          </div>
+          <p>Creates a branch at the current commit and switches to it.</p>
+        </div>
+        <div class="topic">
+          <h3>Keep an existing detached commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch saved-work &lt;commit-id&gt;</code></pre>
+          </div>
+          <p>Creates a branch that points to that commit.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s10">
+        <br>
+        <div class="section-head"><span class="section-number">10</span>
+          <div>
+            <h2>Restore an Older Version of the Project</h2>
+            <p>Bring old file contents into your current working tree.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Restore all tracked files from a commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git restore --source=&lt;commit-id&gt; -- .</code></pre>
+          </div>
+          <p>Updates the working files to match the selected commit.</p>
+        </div>
+        <div class="topic">
+          <h3>Save the restored version as a new commit</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add .
+git commit -m "Restore previous version"</code></pre>
+          </div>
+          <p>Creates a new commit while keeping the existing history.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s11">
+        <br>
+        <div class="section-head"><span class="section-number">11</span>
+          <div>
+            <h2>Create and Use a .gitignore File</h2>
+            <p>Tell Git which untracked files and folders to ignore.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Example .gitignore</h3>
+          <div class="codebox">
+            <div class="code-top"><span>.gitignore</span><button class="copy">Copy</button></div>
+            <pre><code># Environment files
+.env
+
+# Python cache
+__pycache__/
+
+# Build output
+bin/
+
+# Temporary files
+*.tmp</code></pre>
+          </div>
+          <p>Already-tracked files are not automatically ignored. To stop tracking a file without deleting it:</p>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git rm --cached config.js</code></pre>
+          </div>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s12">
+        <br>
+        <div class="section-head"><span class="section-number">12</span>
+          <div>
+            <h2>Remove Git from a Project</h2>
+            <p>Delete the local repository metadata.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <div class="codebox">
+            <div class="code-top"><span>Terminal · Linux/macOS</span><button class="copy">Copy</button></div>
+            <pre><code>rm -rf .git</code></pre>
+          </div>
+          <div class="note warning"><strong>Warning:</strong> This deletes the local Git repository and its history. It
+            does not delete your project files. This is difficult to undo, so make sure you really want to remove Git.
+          </div>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s13">
+        <br>
+        <div class="section-head"><span class="section-number">13</span>
+          <div>
+            <h2>Common Mistakes</h2>
+            <p>Small typos and the correct commands.</p>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Mistake</th>
+              <th>Correct command</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code class="inline">git statuss</code></td>
+              <td><code class="inline">git status</code></td>
+            </tr>
+            <tr>
+              <td><code class="inline">git log -graph</code></td>
+              <td><code class="inline">git log --graph</code></td>
+            </tr>
+            <tr>
+              <td><code class="inline">git add /</code></td>
+              <td><code class="inline">git add .</code></td>
+            </tr>
+            <tr>
+              <td><code class="inline">git restore</code> without a file</td>
+              <td><code class="inline">git restore &lt;file&gt;</code></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="topic">
+          <h3>Remember</h3>
+          <ul>
+            <li><code class="inline">git add</code> stages changes.</li>
+            <li><code class="inline">git commit</code> saves staged changes.</li>
+            <li><code class="inline">git status</code> shows the current state.</li>
+            <li><code class="inline">git log</code> shows commit history.</li>
+            <li><code class="inline">git restore</code> restores files.</li>
+            <li><code class="inline">git checkout</code> can switch branches or commits.</li>
+            <li><code class="inline">git switch</code> is the newer command for switching branches.</li>
+            <li><code class="inline">.gitignore</code> helps keep selected untracked files out of Git.</li>
+          </ul>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s14">
+        <br>
+        <div class="section-head">
+          <span class="section-number">14</span>
+          <div>
+            <h2>Creating Git Branching</h2>
+            <p>Create a branch</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Create a branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch feature1</code></pre>
+          </div>
+          <p>Creates a new branch named <code class="inline">feature1</code> at the current commit.</p>
+          <br>
+          <p>Work on a feature or fix separately without changing the main branch.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s15">
+        <br>
+        <div class="section-head">
+          <span class="section-number">15</span>
+          <div>
+            <h2>Create and Switch to a Branch</h2>
+            <p>Create a branch and move to it.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <h3>Create a branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch feature1</code></pre>
+          </div>
+          <p>Creates a new branch named <code class="inline">feature1</code> at the current commit.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Switch to a branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch feature1</code></pre>
+          </div>
+          <p>Switches to the existing <code class="inline">feature1</code> branch.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Create and switch in one command</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch -c feature1</code></pre>
+          </div>
+          <p>Creates the branch and switches to it.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s16">
+        <br>
+        <div class="section-head">
+          <span class="section-number">16</span>
+          <div>
+            <h2>List Branches</h2>
+            <p>View the local branches in your repository.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch</code></pre>
+          </div>
+          <p>Shows local branches. The current branch is marked with <code class="inline">*</code>.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s17">
+        <br>
+        <div class="section-head">
+          <span class="section-number">17</span>
+          <div>
+            <h2>Work on a Separate Branch</h2>
+            <p>Make changes and commit them on the feature branch.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>echo "New feature" > feature.txt
+git add feature.txt
+git commit -m "Add new feature"</code></pre>
+          </div>
+          <p>The new commit belongs to <code class="inline">feature1</code>. The <code class="inline">main</code> branch
+            remains at its previous commit.</p>
+          <pre><code>A---B---C (main)
+         \
+          D (feature1)</code></pre>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s18">
+        <br>
+        <div class="section-head">
+          <span class="section-number">18</span>
+          <div>
+            <h2>Switch Back to the Main Branch</h2>
+            <p>Return to the main branch or the branch you used previously.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <h3>Switch to main</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch main</code></pre>
+          </div>
+          <p>Switches back to <code class="inline">main</code>.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Return to the previous branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch -</code></pre>
+          </div>
+          <p>Switches to the branch you were on before.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s19">
+        <br>
+        <div class="section-head">
+          <span class="section-number">19</span>
+          <div>
+            <h2>Merge a Branch</h2>
+            <p>Combine changes from one branch into another.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <h3>Merge a feature branch into main</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git switch main
+git merge feature1</code></pre>
+          </div>
+          <p>Git merges the changes from <code class="inline">feature1</code> into <code class="inline">main</code>.</p>
+          <p><strong>Important:</strong> Switch to the branch that should receive the changes before running <code
+              class="inline">git merge</code>.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Fast-forward merge</h3>
+          <p>A fast-forward merge happens when <code class="inline">main</code> has not received new commits since <code
+              class="inline">feature1</code> was created.</p>
+          <pre><code>Before:
+
+A---B---C (main)
+         \
+          D---E (feature1)
+
+After:
+
+A---B---C---D---E (main, feature1)</code></pre>
+          <p>Git moves the <code class="inline">main</code> branch pointer forward. No merge commit is created.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Three-way merge</h3>
+          <p>A three-way merge happens when both branches have new commits.</p>
+          <pre><code>Before:
+
+A---B---C---F (main)
+         \
+          D---E (feature1)
+
+After:
+
+A---B---C---F---M (main)
+         \       /
+          D---E</code></pre>
+          <p>Git creates a merge commit (<code class="inline">M</code>) that connects both histories.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s20">
+        <br>
+        <div class="section-head">
+          <span class="section-number">20</span>
+          <div>
+            <h2>Resolve Merge Conflicts</h2>
+            <p>Fix changes Git cannot automatically combine.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <h3>Check the conflicting files</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git status</code></pre>
+          </div>
+        </div>
+
+        <div class="topic">
+          <h3>Example conflict</h3>
+          <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+Change from main
+=======
+Change from feature1
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature1</code></pre>
+          <ul>
+            <li><code class="inline">HEAD</code> represents the current branch.</li>
+            <li>The section below <code class="inline">=======</code> contains the incoming changes.</li>
+            <li><code class="inline">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature1</code> marks the end of the incoming changes.
+            </li>
+          </ul>
+          <p>Edit the file to keep the correct content and remove the conflict markers.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Complete the merge</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git add filename.txt
+git commit</code></pre>
+          </div>
+          <p>Git creates a merge commit after the conflict is resolved.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Cancel the merge</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git merge --abort</code></pre>
+          </div>
+          <p>Attempts to return the working tree to its state before the merge started.</p>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s21">
+        <br>
+        <div class="section-head">
+          <span class="section-number">21</span>
+          <div>
+            <h2>Delete a Branch</h2>
+            <p>Remove a feature branch when it is no longer needed.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <h3>Delete a merged branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch -d feature1</code></pre>
+          </div>
+          <p>Deletes the branch only if Git considers it safely merged.</p>
+        </div>
+
+        <div class="topic">
+          <h3>Force-delete an unmerged branch</h3>
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git branch -D feature1</code></pre>
+          </div>
+          <div class="note warning">
+            <strong>Warning:</strong> Force-deleting a branch can make its unmerged commits harder to find.
+          </div>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s22">
+        <br>
+        <div class="section-head">
+          <span class="section-number">22</span>
+          <div>
+            <h2>View Branch History</h2>
+            <p>Display commits from all branches in a compact graph.</p>
+          </div>
+        </div>
+
+        <div class="topic">
+          <div class="codebox">
+            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+            <pre><code>git log --all --graph --oneline</code></pre>
+          </div>
+          <p>Displays commits from all branches in a compact graph.</p>
+
+          <p><strong>Example:</strong></p>
+          <pre><code>*   a1b2c3d (HEAD -&gt; main) Merge feature1
+|\
+| * e4f5g6h Add new feature
+* | i7j8k9l Fix a bug
+|/
+* m1n2o3p Initial commit
+</code></pre>
+        </div>
+      </section>
+      <hr>
+      <section class="doc-section" id="s23">
+        <br>
+        <div class="section-head">
+          <span class="section-number">23</span>
+          <div>
+            <h2>Remember</h2>
+            <p>Quick review of important branching commands.</p>
+          </div>
+        </div>
+        <div class="topic">
+          <ul>
+            <li><code class="inline">git branch</code> creates and lists branches.</li>
+            <li><code class="inline">git switch</code> changes branches.</li>
+            <li><code class="inline">git switch -c</code> creates and switches to a branch.</li>
+            <li><code class="inline">git merge</code> combines changes from another branch.</li>
+            <li><code class="inline">git merge --abort</code> cancels an unfinished merge.</li>
+            <li><code class="inline">git branch -d</code> deletes a merged branch.</li>
+            <li><code class="inline">git log --all --graph --oneline</code> shows the branch history.</li>
+          </ul>
+        </div>
+      </section>
+      <!-- Section End -->
+      <footer class="footer">Git Commands · Practical Notes <span style="float:right">Built for quick reference</span>
+      </footer>
+    </main>
+  </div>
+  <script>
+    document.querySelectorAll('.copy').forEach(button => {
+  button.addEventListener('click', async () => {
+    const code = button.closest('.codebox')?.querySelector('code')?.textContent;
+
+    if (!code) return;
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(code);
+      } else {
+        const area = document.createElement('textarea');
+        area.value = code;
+        area.style.position = 'fixed';
+        area.style.opacity = '0';
+        document.body.appendChild(area);
+        area.select();
+
+        if (!document.execCommand('copy')) {
+          throw new Error('Copy command failed');
+        }
+
+        area.remove();
+      }
+
+      button.textContent = 'Copied!';
+    } catch (error) {
+      button.textContent = 'Copy failed';
+      console.error('Copy failed:', error);
+    }
+
+    setTimeout(() => {
+      button.textContent = 'Copy';
+    }, 1400);
+  });
+});
+  </script>
+</body>
+
+</html>

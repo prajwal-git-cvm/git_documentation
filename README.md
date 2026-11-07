@@ -6,7 +6,7 @@ A beginner-friendly, practical reference for tracking files, saving
 versions, exploring commit history, restoring work, and managing
 branches.
 
--   **23 topics**
+-   **44 topics**
 -   Copy-ready commands
 -   No external dependencies
 
@@ -857,7 +857,7 @@ git config --global --unset user.name
 
 # Advanced Git Commands
 
-## 1. Stash – Temporarily save changes
+## 31. Stash – Temporarily save changes
 
 ```
 # Save current changes
@@ -885,7 +885,7 @@ git stash drop stash@{0}
 git stash clear
 ```
 
-## 2. Rebase – Rewrite commit history
+## 32. Rebase – Rewrite commit history
 
 ```
 # Rebase current branch onto main
@@ -904,7 +904,7 @@ git rebase --skip
 git rebase --abort
 ```
 
-## 3. Cherry-pick – Copy a specific commit
+## 33. Cherry-pick – Copy a specific commit
 
 ```
 # Find commit IDs
@@ -923,7 +923,7 @@ git cherry-pick --continue
 git cherry-pick --abort
 ```
 
-## 4. Reflog – Recover previous Git states
+## 34. Reflog – Recover previous Git states
 
 ```
 # Show recent HEAD movements
@@ -939,7 +939,7 @@ git reset --hard <commit-id>
 git branch recovery <commit-id>
 ```
 
-## 5. Reset – Move branch history
+## 35. Reset – Move branch history
 
 ```
 # Undo commit but keep changes staged
@@ -963,7 +963,7 @@ Destructive
 
 
 
-## 6. Revert – Safely undo commits
+## 36. Revert – Safely undo commits
 
 ```
 # Create a new commit that reverses a commit
@@ -979,7 +979,7 @@ git revert -m 1 <merge-commit-id>
 git revert --abort
 ```
 
-## 7. Bisect – Find which commit introduced a bug
+## 37. Bisect – Find which commit introduced a bug
 
 ```
 # Start bisect
@@ -1000,7 +1000,7 @@ git bisect bad
 git bisect reset
 ```
 
-## 8. Worktree – Work on multiple branches simultaneously
+## 38. Worktree – Work on multiple branches simultaneously
 
 ```
 # List worktrees
@@ -1019,7 +1019,7 @@ git worktree remove ../project-feature
 git worktree prune
 ```
 
-## 9. Tags – Manage versions and releases
+## 39. Tags – Manage versions and releases
 
 ```
 # List tags
@@ -1047,7 +1047,7 @@ git push origin --tags
 git push origin --delete v1.0.0
 ```
 
-## 10. Clean – Remove untracked files
+## 40. Clean – Remove untracked files
 
 ```
 # Preview files that will be removed
@@ -1066,7 +1066,7 @@ git clean -fd
 git clean -fdx
 ```
 
-## 11. Advanced Diff and Log
+## 41. Advanced Diff and Log
 
 ```
 # Show changes between two commits
@@ -1094,7 +1094,7 @@ git log --author="Name"
 git log --since="2026-01-01" --until="2026-12-31"
 ```
 
-## 12. Advanced Remote Commands
+## 42. Advanced Remote Commands
 
 ```
 # Show remote URLs
@@ -1125,7 +1125,7 @@ git push -u origin <branch-name>
 git push origin --delete <branch-name>
 ```
 
-## 13. Advanced Branch Commands
+## 43. Advanced Branch Commands
 
 ```
 # Show merged branches
@@ -1150,7 +1150,7 @@ git branch --set-upstream-to=origin/main
 git branch -vv
 ```
 
-## 14. Useful Advanced Commands
+## 44. Useful Advanced Commands
 
 ```
 # Check repository integrity
@@ -1177,6 +1177,3 @@ git --version
 # Show Git command help
 git help <command>
 ```
-
-**Quick reminder:** Stage with `git add`, save with `git commit`, and
-inspect with `git status`.

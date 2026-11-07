@@ -682,5 +682,499 @@ git commit -m "Describe your changes"
 git log --oneline
 ```
 
+# Additional Git Commands
+
+## 24. Compare Changes Using `git diff`
+
+Compare file changes between your working directory, staging area, commits, or branches.
+
+### Compare unstaged changes
+
+```
+git diff
+```
+
+Shows changes that have not been staged.
+
+### Compare staged changes
+
+```
+git diff --staged
+```
+
+Shows changes that are staged but not committed.
+
+### Compare two branches
+
+```
+git diff main feature1
+```
+
+Shows differences between two branches.
+
+### Compare a branch with the current branch
+
+```
+git diff main
+```
+
+### Compare a specific file between branches
+
+```
+git diff main feature1 -- src/main.c
+```
+
+## 25. Understand `HEAD`, `HEAD~1` and Commit References
+
+Git uses `HEAD` to identify the current position in your repository.
+
+```
+# Current commit
+git log -1
+
+# Previous commit
+git show HEAD~1
+
+# Two commits before HEAD
+git show HEAD~2
+
+# Show current HEAD reference
+git rev-parse HEAD
+```
+
+- `HEAD` – Current commit.
+- `HEAD~1` – One commit before HEAD.
+- `HEAD~2` – Two commits before HEAD.
+- `HEAD^` – First parent of the current commit.
+
+## 26. Understand Merge Conflict Sides
+
+When a merge conflict occurs, Git identifies two versions.
+
+| Term   | Meaning                                       |
+| ------ | --------------------------------------------- |
+| Ours   | Changes from the currently checked-out branch |
+| Theirs | Changes coming from the branch being merged   |
+
+### Keep the current branch's version
+
+```
+git checkout --ours src/main.c
+```
+
+### Keep the incoming branch's version
+
+```
+git checkout --theirs src/main.c
+```
+
+### Apply to all conflicting files
+
+```
+git checkout --ours .
+git checkout --theirs .
+```
+
+Important: These commands select one side's version. They discard the other side's conflicting content for the selected files.
+
+### Complete conflict resolution
+
+```
+git add src/main.c
+git commit -m "Resolve merge conflict"
+```
+
+## 27. View Details of a Commit
+
+Use `git show` to inspect a particular commit.
+
+```
+# Show the latest commit
+git show
+
+# Show a specific commit
+git show <commit-id>
+
+# Show only the commit summary
+git show --stat <commit-id>
+```
+
+Displays commit information and the changes introduced by that commit.
+
+## 28. Rename a Branch
+
+Change an existing branch name.
+
+### Rename the current branch
+
+```
+git branch -m new-name
+```
+
+### Rename another branch
+
+```
+git branch -m old-name new-name
+```
+
+## 29. Configure the Default Initial Branch
+
+Set the default branch name for newly initialized repositories.
+
+```
+git config --global init.defaultBranch main
+```
+
+Now, newly initialized repositories will use `main` instead of `master`.
+
+## 30. View Git Configuration Details
+
+### Show where configuration comes from
+
+```
+git config --list --show-origin
+```
+
+### View username
+
+```
+git config user.name
+```
+
+### View email
+
+```
+git config user.email
+```
+
+### Remove a global configuration
+
+```
+git config --global --unset user.name
+```
+
+# Advanced Git Commands
+
+## 1. Stash – Temporarily save changes
+
+```
+# Save current changes
+git stash
+
+# Save with a description
+git stash push -m "work in progress"
+
+# List saved stashes
+git stash list
+
+# Apply latest stash (keep it saved)
+git stash apply
+
+# Apply and remove latest stash
+git stash pop
+
+# Apply a specific stash
+git stash apply stash@{1}
+
+# Delete a specific stash
+git stash drop stash@{0}
+
+# Delete all stashes
+git stash clear
+```
+
+## 2. Rebase – Rewrite commit history
+
+```
+# Rebase current branch onto main
+git rebase main
+
+# Interactive rebase (last 3 commits)
+git rebase -i HEAD~3
+
+# Continue after resolving conflicts
+git rebase --continue
+
+# Skip the current commit
+git rebase --skip
+
+# Cancel rebase
+git rebase --abort
+```
+
+## 3. Cherry-pick – Copy a specific commit
+
+```
+# Find commit IDs
+git log --oneline
+
+# Apply a specific commit to current branch
+git cherry-pick <commit-id>
+
+# Apply multiple commits
+git cherry-pick <commit-id-1> <commit-id-2>
+
+# Continue after resolving conflicts
+git cherry-pick --continue
+
+# Cancel cherry-pick
+git cherry-pick --abort
+```
+
+## 4. Reflog – Recover previous Git states
+
+```
+# Show recent HEAD movements
+git reflog
+
+# Show reflog for all references
+git reflog show --all
+
+# Recover a previous commit
+git reset --hard <commit-id>
+
+# Create a recovery branch from a previous state
+git branch recovery <commit-id>
+```
+
+## 5. Reset – Move branch history
+
+```
+# Undo commit but keep changes staged
+git reset --soft HEAD~1
+
+# Undo commit but keep changes unstaged
+git reset --mixed HEAD~1
+
+# Undo commit and discard changes
+git reset --hard HEAD~1
+
+# Reset to a specific commit
+git reset --hard <commit-id>
+```
+
+
+
+Destructive
+
+`--hard` can permanently discard uncommitted changes.
+
+
+
+## 6. Revert – Safely undo commits
+
+```
+# Create a new commit that reverses a commit
+git revert <commit-id>
+
+# Revert without automatically committing
+git revert --no-commit <commit-id>
+
+# Revert a merge commit (choose parent 1)
+git revert -m 1 <merge-commit-id>
+
+# Cancel an ongoing revert
+git revert --abort
+```
+
+## 7. Bisect – Find which commit introduced a bug
+
+```
+# Start bisect
+git bisect start
+
+# Mark current version as having the bug
+git bisect bad
+
+# Mark a known working commit
+git bisect good <commit-id>
+
+# Git checks commits between good and bad
+# Test the code, then mark the result:
+git bisect good
+git bisect bad
+
+# Finish bisect
+git bisect reset
+```
+
+## 8. Worktree – Work on multiple branches simultaneously
+
+```
+# List worktrees
+git worktree list
+
+# Create a worktree for an existing branch
+git worktree add ../project-feature feature
+
+# Create a new branch and worktree
+git worktree add -b feature-login ../project-login
+
+# Remove a worktree
+git worktree remove ../project-feature
+
+# Clean up worktree references
+git worktree prune
+```
+
+## 9. Tags – Manage versions and releases
+
+```
+# List tags
+git tag
+
+# Create a lightweight tag
+git tag v1.0.0
+
+# Create an annotated tag
+git tag -a v1.0.0 -m "First stable release"
+
+# View tag information
+git show v1.0.0
+
+# Delete a local tag
+git tag -d v1.0.0
+
+# Push a specific tag
+git push origin v1.0.0
+
+# Push all tags
+git push origin --tags
+
+# Delete a remote tag
+git push origin --delete v1.0.0
+```
+
+## 10. Clean – Remove untracked files
+
+```
+# Preview files that will be removed
+git clean -n
+
+# Remove untracked files
+git clean -f
+
+# Preview untracked files and directories
+git clean -nd
+
+# Remove untracked files and directories
+git clean -fd
+
+# Also remove ignored files (be careful)
+git clean -fdx
+```
+
+## 11. Advanced Diff and Log
+
+```
+# Show changes between two commits
+git diff <commit-1> <commit-2>
+
+# Show changes in a specific file
+git diff <commit-1> <commit-2> -- src/main.c
+
+# Show commit details
+git show <commit-id>
+
+# Show only changed file names
+git diff --name-only
+
+# Show changed files in a commit
+git diff-tree --no-commit-id --name-only -r <commit-id>
+
+# Show commit history for a specific file
+git log --follow -- src/main.c
+
+# Show commits by author
+git log --author="Name"
+
+# Show commits within a date range
+git log --since="2026-01-01" --until="2026-12-31"
+```
+
+## 12. Advanced Remote Commands
+
+```
+# Show remote URLs
+git remote -v
+
+# Change remote URL
+git remote set-url origin <repository-url>
+
+# Fetch all remotes and branches
+git fetch --all
+
+# Fetch and remove deleted remote-tracking branches
+git fetch --prune
+
+# Download remote changes without merging
+git fetch origin
+
+# Show remote branches
+git branch -r
+
+# Show local and remote branches
+git branch -a
+
+# Push current branch and set upstream
+git push -u origin <branch-name>
+
+# Push and delete a remote branch
+git push origin --delete <branch-name>
+```
+
+## 13. Advanced Branch Commands
+
+```
+# Show merged branches
+git branch --merged
+
+# Show branches not yet merged
+git branch --no-merged
+
+# Delete a merged local branch
+git branch -d <branch-name>
+
+# Force-delete a local branch
+git branch -D <branch-name>
+
+# Track a remote branch
+git branch --track <local-name> origin/<remote-name>
+
+# Set upstream for current branch
+git branch --set-upstream-to=origin/main
+
+# Show upstream information
+git branch -vv
+```
+
+## 14. Useful Advanced Commands
+
+```
+# Check repository integrity
+git fsck
+
+# Optimize repository storage
+git gc
+
+# Show repository information
+git count-objects -vH
+
+# Show files tracked by Git
+git ls-files
+
+# Find which commit introduced a line
+git blame src/main.c
+
+# Export a commit as a ZIP archive
+git archive --format=zip HEAD -o project.zip
+
+# Check Git version
+git --version
+
+# Show Git command help
+git help <command>
+```
+
 **Quick reminder:** Stage with `git add`, save with `git commit`, and
 inspect with `git status`.

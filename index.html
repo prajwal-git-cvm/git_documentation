@@ -616,6 +616,22 @@
         <a href="#s28"><span>28</span> Rename branches</a>
         <a href="#s29"><span>29</span> Default initial branch</a>
         <a href="#s30"><span>30</span> Git configuration details</a>
+        <!-- Git - Part 3 -->
+        <p class="side-label">Git - Part 3</p>
+        <a href="#s31"><span>31</span> Stash changes</a>
+        <a href="#s32"><span>32</span> Rebase commits</a>
+        <a href="#s33"><span>33</span> Cherry-pick commits</a>
+        <a href="#s34"><span>34</span> Reflog and recovery</a>
+        <a href="#s35"><span>35</span> Reset commits</a>
+        <a href="#s36"><span>36</span> Revert commits</a>
+        <a href="#s37"><span>37</span> Bisect bugs</a>
+        <a href="#s38"><span>38</span> Worktrees</a>
+        <a href="#s39"><span>39</span> Tags and releases</a>
+        <a href="#s40"><span>40</span> Clean untracked files</a>
+        <a href="#s41"><span>41</span> Advanced diff and log</a>
+        <a href="#s42"><span>42</span> Advanced remote commands</a>
+        <a href="#s43"><span>43</span> Advanced branch commands</a>
+        <a href="#s44"><span>44</span> Useful advanced commands</a>
       </nav>
       <div class="sidebar-note"><strong>Quick reminder</strong>
         <p>Stage with <code class="inline">git add</code>, save with <code class="inline">git commit</code>, inspect
@@ -1722,6 +1738,905 @@ git commit -m "Resolve merge conflict"</code></pre>
       <pre><code>git config --global --unset user.name</code></pre>
     </div>
     <p>Removes the global username setting.</p>
+  </div>
+</section>
+<!-- 31. Stash -->
+<section class="doc-section" id="s31">
+  <br>
+  <div class="section-head">
+    <span class="section-number">31</span>
+    <div>
+      <h2>Stash – Temporarily Save Changes</h2>
+      <p>Temporarily store your uncommitted changes without creating a commit.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Save current changes</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Save changes with a description</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash push -m "work in progress"</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>List saved stashes</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash list</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Apply the latest stash without deleting it</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash apply</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Apply and remove the latest stash</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash pop</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Apply a specific stash</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash apply stash@{1}</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Delete a specific stash</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash drop stash@{0}</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Delete all stashes</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git stash clear</code></pre>
+    </div>
+    <p>Removes all saved stashes permanently.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 32. Rebase -->
+<section class="doc-section" id="s32">
+  <br>
+  <div class="section-head">
+    <span class="section-number">32</span>
+    <div>
+      <h2>Rebase – Rewrite Commit History</h2>
+      <p>Move or replay commits onto another branch to create a different commit history.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Rebase current branch onto main</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git rebase main</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Start interactive rebase</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git rebase -i HEAD~3</code></pre>
+    </div>
+    <p>Opens an editor to modify the last three commits, such as reordering, editing, or combining them.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Continue after resolving conflicts</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git rebase --continue</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Skip the current commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git rebase --skip</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Cancel the rebase operation</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git rebase --abort</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 33. Cherry-pick -->
+<section class="doc-section" id="s33">
+  <br>
+  <div class="section-head">
+    <span class="section-number">33</span>
+    <div>
+      <h2>Cherry-pick – Copy a Specific Commit</h2>
+      <p>Apply changes from a specific commit to your current branch.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Find commit IDs</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --oneline</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Apply a specific commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git cherry-pick &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Apply multiple commits</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git cherry-pick &lt;commit-id-1&gt; &lt;commit-id-2&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Continue after resolving conflicts</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git cherry-pick --continue</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Cancel cherry-pick</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git cherry-pick --abort</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 34. Reflog -->
+<section class="doc-section" id="s34">
+  <br>
+  <div class="section-head">
+    <span class="section-number">34</span>
+    <div>
+      <h2>Reflog – Recover Previous Git States</h2>
+      <p>Inspect previous movements of HEAD and recover earlier repository states.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show recent HEAD movements</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reflog</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show reflog for all references</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reflog show --all</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Recover a previous commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reset --hard &lt;commit-id&gt;</code></pre>
+    </div>
+    <p>Moves the current branch to the selected commit and resets tracked files. This can discard uncommitted changes.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Create a recovery branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch recovery &lt;commit-id&gt;</code></pre>
+    </div>
+    <p>Creates a branch pointing to the selected commit without moving the current branch.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 35. Reset -->
+<section class="doc-section" id="s35">
+  <br>
+  <div class="section-head">
+    <span class="section-number">35</span>
+    <div>
+      <h2>Reset – Move Branch History</h2>
+      <p>Move the current branch to an earlier commit with different reset modes.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Undo a commit but keep changes staged</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reset --soft HEAD~1</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Undo a commit but keep changes unstaged</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reset --mixed HEAD~1</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Undo a commit and discard changes</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reset --hard HEAD~1</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Reset to a specific commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git reset --hard &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Understand reset modes</h3>
+    <p>
+      <strong>--soft</strong> – Moves HEAD but keeps changes staged.<br>
+      <strong>--mixed</strong> – Moves HEAD and unstages changes.<br>
+      <strong>--hard</strong> – Moves HEAD and resets tracked files.
+    </p>
+    <p><strong>Warning:</strong> The hard reset can permanently discard uncommitted changes.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 36. Revert -->
+<section class="doc-section" id="s36">
+  <br>
+  <div class="section-head">
+    <span class="section-number">36</span>
+    <div>
+      <h2>Revert – Safely Undo Commits</h2>
+      <p>Create new commits that reverse changes introduced by earlier commits.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Revert a specific commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git revert &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Revert without automatically committing</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git revert --no-commit &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Revert a merge commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git revert -m 1 &lt;merge-commit-id&gt;</code></pre>
+    </div>
+    <p>The <strong>-m 1</strong> option selects the first parent as the mainline.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Cancel an ongoing revert</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git revert --abort</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 37. Bisect -->
+<section class="doc-section" id="s37">
+  <br>
+  <div class="section-head">
+    <span class="section-number">37</span>
+    <div>
+      <h2>Bisect – Find Which Commit Introduced a Bug</h2>
+      <p>Use binary search to identify the commit that introduced a problem.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Start bisect</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git bisect start</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Mark the current version as having the bug</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git bisect bad</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Mark a known working commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git bisect good &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Mark each tested commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code># If the bug is not present
+git bisect good
+
+# If the bug is present
+git bisect bad</code></pre>
+    </div>
+    <p>Git selects commits for testing until it identifies the commit that introduced the bug.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Finish bisect</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git bisect reset</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 38. Worktree -->
+<section class="doc-section" id="s38">
+  <br>
+  <div class="section-head">
+    <span class="section-number">38</span>
+    <div>
+      <h2>Worktree – Work on Multiple Branches Simultaneously</h2>
+      <p>Use multiple working directories connected to the same Git repository.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>List worktrees</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git worktree list</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Create a worktree for an existing branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git worktree add ../project-feature feature</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Create a new branch and worktree</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git worktree add -b feature-login ../project-login</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Remove a worktree</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git worktree remove ../project-feature</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Clean up worktree references</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git worktree prune</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 39. Tags -->
+<section class="doc-section" id="s39">
+  <br>
+  <div class="section-head">
+    <span class="section-number">39</span>
+    <div>
+      <h2>Tags – Manage Versions and Releases</h2>
+      <p>Mark specific commits with version names for releases and milestones.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>List tags</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git tag</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Create a lightweight tag</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git tag v1.0.0</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Create an annotated tag</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git tag -a v1.0.0 -m "First stable release"</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>View tag information</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show v1.0.0</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Delete a local tag</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git tag -d v1.0.0</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Push a specific tag</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git push origin v1.0.0</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Push all tags</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git push origin --tags</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Delete a remote tag</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git push origin --delete v1.0.0</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 40. Clean -->
+<section class="doc-section" id="s40">
+  <br>
+  <div class="section-head">
+    <span class="section-number">40</span>
+    <div>
+      <h2>Clean – Remove Untracked Files</h2>
+      <p>Preview or remove files and directories that Git is not tracking.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Preview files that will be removed</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git clean -n</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Remove untracked files</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git clean -f</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Preview untracked files and directories</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git clean -nd</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Remove untracked files and directories</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git clean -fd</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Also remove ignored files</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git clean -fdx</code></pre>
+    </div>
+    <p>Removes ignored files too, such as files listed in .gitignore. Review carefully before running.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 41. Advanced Diff and Log -->
+<section class="doc-section" id="s41">
+  <br>
+  <div class="section-head">
+    <span class="section-number">41</span>
+    <div>
+      <h2>Advanced Diff and Log</h2>
+      <p>Inspect differences, changed files, and commit history in more detail.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show changes between two commits</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff &lt;commit-1&gt; &lt;commit-2&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show changes in a specific file between commits</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff &lt;commit-1&gt; &lt;commit-2&gt; -- src/main.c</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show commit details</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show only changed file names</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff --name-only</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show changed files in a commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff-tree --no-commit-id --name-only -r &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show commit history for a specific file</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --follow -- src/main.c</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show commits by author</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --author="Name"</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show commits within a date range</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --since="2026-01-01" --until="2026-12-31"</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 42. Advanced Remote Commands -->
+<section class="doc-section" id="s42">
+  <br>
+  <div class="section-head">
+    <span class="section-number">42</span>
+    <div>
+      <h2>Advanced Remote Commands</h2>
+      <p>Manage remote repositories, fetch updates, and synchronize branches.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show remote URLs</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git remote -v</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Change remote URL</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git remote set-url origin &lt;repository-url&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Fetch all remotes and branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git fetch --all</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Fetch and remove deleted remote-tracking branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git fetch --prune</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Download remote changes without merging</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git fetch origin</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show remote branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -r</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show local and remote branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -a</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Push current branch and set upstream</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git push -u origin &lt;branch-name&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Delete a remote branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git push origin --delete &lt;branch-name&gt;</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 43. Advanced Branch Commands -->
+<section class="doc-section" id="s43">
+  <br>
+  <div class="section-head">
+    <span class="section-number">43</span>
+    <div>
+      <h2>Advanced Branch Commands</h2>
+      <p>Inspect, track, and manage local and remote branches.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show merged branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch --merged</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show branches not yet merged</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch --no-merged</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Delete a merged local branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -d &lt;branch-name&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Force-delete a local branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -D &lt;branch-name&gt;</code></pre>
+    </div>
+    <p>Deletes the branch even if it contains commits that have not been merged.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Track a remote branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch --track &lt;local-name&gt; origin/&lt;remote-name&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Set upstream for the current branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch --set-upstream-to=origin/main</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show upstream information</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -vv</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 44. Useful Advanced Commands -->
+<section class="doc-section" id="s44">
+  <br>
+  <div class="section-head">
+    <span class="section-number">44</span>
+    <div>
+      <h2>Useful Advanced Commands</h2>
+      <p>Inspect repository health, storage, tracked files, and source history.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Check repository integrity</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git fsck</code></pre>
+    </div>
+    <p>Checks the Git object database for errors and unreachable objects.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Optimize repository storage</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git gc</code></pre>
+    </div>
+    <p>Performs garbage collection and optimizes repository storage.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Show repository storage information</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git count-objects -vH</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show files tracked by Git</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git ls-files</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Find who changed each line of a file</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git blame src/main.c</code></pre>
+    </div>
+    <p>Shows the commit and author associated with each line.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Export a commit as a ZIP archive</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git archive --format=zip HEAD -o project.zip</code></pre>
+    </div>
+    <p>Creates a ZIP archive containing the files from the selected commit.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Check Git version</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git --version</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Open help for a Git command</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git help &lt;command&gt;</code></pre>
+    </div>
   </div>
 </section>
       <!-- Section End -->

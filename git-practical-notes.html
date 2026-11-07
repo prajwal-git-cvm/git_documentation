@@ -607,6 +607,15 @@
         <a href="#s21"><span>21</span> Common branch mistakes</a>
         <a href="#s22"><span>22</span> View branch history</a>
         <a href="#s23"><span>23</span> Remember</a>
+        <!-- Git - Part 2 -->
+        <p class="side-label">Git - Part 2</p>
+        <a href="#s24"><span>24</span> Compare changes</a>
+        <a href="#s25"><span>25</span> HEAD and commit references</a>
+        <a href="#s26"><span>26</span> Merge conflict sides</a>
+        <a href="#s27"><span>27</span> View commit details</a>
+        <a href="#s28"><span>28</span> Rename branches</a>
+        <a href="#s29"><span>29</span> Default initial branch</a>
+        <a href="#s30"><span>30</span> Git configuration details</a>
       </nav>
       <div class="sidebar-note"><strong>Quick reminder</strong>
         <p>Stage with <code class="inline">git add</code>, save with <code class="inline">git commit</code>, inspect
@@ -1406,6 +1415,315 @@ git commit</code></pre>
           </ul>
         </div>
       </section>
+      <!-- 24. Compare Changes -->
+<section class="doc-section" id="s24">
+  <br>
+  <div class="section-head">
+    <span class="section-number">24</span>
+    <div>
+      <h2>Compare Changes Using git diff</h2>
+      <p>Compare changes between your working directory, staging area, commits, or branches.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Compare unstaged changes</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff</code></pre>
+    </div>
+    <p>Shows changes that have not been staged.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Compare staged changes</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff --staged</code></pre>
+    </div>
+    <p>Shows changes that are staged but not committed.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Compare two branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff main feature1</code></pre>
+    </div>
+    <p>Shows differences between two branches.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Compare a branch with the current branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff main</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Compare a specific file between branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git diff main feature1 -- src/main.c</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 25. HEAD and Commit References -->
+<section class="doc-section" id="s25">
+  <br>
+  <div class="section-head">
+    <span class="section-number">25</span>
+    <div>
+      <h2>Understand HEAD and Commit References</h2>
+      <p>Use HEAD to identify the current position in your repository.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show the current commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log -1</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show the previous commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show HEAD~1</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show two commits before HEAD</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show HEAD~2</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show the current HEAD reference</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git rev-parse HEAD</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Understand commit references</h3>
+    <p>
+      <strong>HEAD</strong> – Current commit.<br>
+      <strong>HEAD~1</strong> – One commit before HEAD.<br>
+      <strong>HEAD~2</strong> – Two commits before HEAD.<br>
+      <strong>HEAD^</strong> – First parent of the current commit.
+    </p>
+  </div>
+</section>
+<hr>
+<!-- 26. Merge Conflict Sides -->
+<section class="doc-section" id="s26">
+  <br>
+  <div class="section-head">
+    <span class="section-number">26</span>
+    <div>
+      <h2>Understand Merge Conflict Sides</h2>
+      <p>Choose which version of a file to keep when a merge conflict occurs.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Understand Ours and Theirs</h3>
+    <p>
+      <strong>Ours</strong> – Changes from the currently checked-out branch.<br>
+      <strong>Theirs</strong> – Changes coming from the branch being merged.
+    </p>
+  </div>
+
+  <div class="topic">
+    <h3>Keep the current branch version</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git checkout --ours src/main.c</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Keep the incoming branch version</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git checkout --theirs src/main.c</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Apply to all conflicting files</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code># Keep current branch versions
+git checkout --ours .
+
+# Keep incoming branch versions
+git checkout --theirs .</code></pre>
+    </div>
+    <p>These commands select one side's version and discard the other side's conflicting content for the selected files.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Complete conflict resolution</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git add src/main.c
+git commit -m "Resolve merge conflict"</code></pre>
+    </div>
+    <p>Stage the resolved files and create a commit to complete the merge.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 27. View Commit Details -->
+<section class="doc-section" id="s27">
+  <br>
+  <div class="section-head">
+    <span class="section-number">27</span>
+    <div>
+      <h2>View Details of a Commit</h2>
+      <p>Inspect commit information and the changes introduced by a commit.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show the latest commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show a specific commit</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show &lt;commit-id&gt;</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show only the commit summary</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git show --stat &lt;commit-id&gt;</code></pre>
+    </div>
+    <p>Displays a summary of the files changed and the number of insertions and deletions.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 28. Rename Branch -->
+<section class="doc-section" id="s28">
+  <br>
+  <div class="section-head">
+    <span class="section-number">28</span>
+    <div>
+      <h2>Rename a Branch</h2>
+      <p>Change the name of an existing branch.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Rename the current branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -m new-name</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Rename another branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -m old-name new-name</code></pre>
+    </div>
+  </div>
+</section>
+<hr>
+
+
+<!-- 29. Default Initial Branch -->
+<section class="doc-section" id="s29">
+  <br>
+  <div class="section-head">
+    <span class="section-number">29</span>
+    <div>
+      <h2>Configure the Default Initial Branch</h2>
+      <p>Set the default branch name for newly initialized repositories.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Set the default branch to main</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git config --global init.defaultBranch main</code></pre>
+    </div>
+    <p>Newly initialized repositories will use <strong>main</strong> instead of <strong>master</strong> by default.</p>
+  </div>
+</section>
+<hr>
+
+
+<!-- 30. Git Configuration Details -->
+<section class="doc-section" id="s30">
+  <br>
+  <div class="section-head">
+    <span class="section-number">30</span>
+    <div>
+      <h2>View Git Configuration Details</h2>
+      <p>Inspect configuration values and where they are defined.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Show configuration with its source</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git config --list --show-origin</code></pre>
+    </div>
+    <p>Shows configuration values along with the files from which they come.</p>
+  </div>
+
+  <div class="topic">
+    <h3>View configured username</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git config user.name</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>View configured email</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git config user.email</code></pre>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Remove global username configuration</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git config --global --unset user.name</code></pre>
+    </div>
+    <p>Removes the global username setting.</p>
+  </div>
+</section>
       <!-- Section End -->
       <footer class="footer">Git Commands · Practical Notes <span style="float:right">Built for quick reference</span>
       </footer>

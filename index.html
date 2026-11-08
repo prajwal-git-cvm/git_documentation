@@ -1164,106 +1164,31 @@ bin/
         </div>
       </section>
       <hr>
-      <section class="doc-section" id="s16">
-        <br>
-        <div class="section-head">
-          <span class="section-number">16</span>
-          <div>
-            <h2>List Branches</h2>
-            <p>View the local branches in your repository.</p>
-          </div>
-        </div>
+      
+<section class="doc-section" id="s16">
+  <br>
+  <div class="section-head">
+    <span class="section-number">16</span>
+    <div>
+      <h2>Merge Branches</h2>
+      <p>Combine changes from one branch into another.</p>
+    </div>
+  </div>
 
-        <div class="topic">
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git branch</code></pre>
-          </div>
-          <p>Shows local branches. The current branch is marked with <code class="inline">*</code>.</p>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s17">
-        <br>
-        <div class="section-head">
-          <span class="section-number">17</span>
-          <div>
-            <h2>Work on a Separate Branch</h2>
-            <p>Make changes and commit them on the feature branch.</p>
-          </div>
-        </div>
-
-        <div class="topic">
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>echo "New feature" > feature.txt
-git add feature.txt
-git commit -m "Add new feature"</code></pre>
-          </div>
-          <p>The new commit belongs to <code class="inline">feature1</code>. The <code class="inline">main</code> branch
-            remains at its previous commit.</p>
-          <pre><code>A---B---C (main)
-         \
-          D (feature1)</code></pre>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s18">
-        <br>
-        <div class="section-head">
-          <span class="section-number">18</span>
-          <div>
-            <h2>Switch Back to the Main Branch</h2>
-            <p>Return to the main branch or the branch you used previously.</p>
-          </div>
-        </div>
-
-        <div class="topic">
-          <h3>Switch to main</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git switch main</code></pre>
-          </div>
-          <p>Switches back to <code class="inline">main</code>.</p>
-        </div>
-
-        <div class="topic">
-          <h3>Return to the previous branch</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git switch -</code></pre>
-          </div>
-          <p>Switches to the branch you were on before.</p>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s19">
-        <br>
-        <div class="section-head">
-          <span class="section-number">19</span>
-          <div>
-            <h2>Merge a Branch</h2>
-            <p>Combine changes from one branch into another.</p>
-          </div>
-        </div>
-
-        <div class="topic">
-          <h3>Merge a feature branch into main</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git switch main
+  <div class="topic">
+    <h3>Merge a feature branch into main</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git switch main
 git merge feature1</code></pre>
-          </div>
-          <p>Git merges the changes from <code class="inline">feature1</code> into <code class="inline">main</code>.</p>
-          <p><strong>Important:</strong> Switch to the branch that should receive the changes before running <code
-              class="inline">git merge</code>.</p>
-        </div>
+    </div>
+    <p>Switches to <code class="inline">main</code> and merges changes from <code class="inline">feature1</code> into it.</p>
+  </div>
 
-        <div class="topic">
-          <h3>Fast-forward merge</h3>
-          <p>A fast-forward merge happens when <code class="inline">main</code> has not received new commits since <code
-              class="inline">feature1</code> was created.</p>
-          <pre><code>Before:
+  <div class="topic">
+    <h3>Fast-forward merge</h3>
+    <p>Happens when the receiving branch has no new commits since the feature branch was created.</p>
+    <pre><code>Before:
 
 A---B---C (main)
          \
@@ -1271,14 +1196,14 @@ A---B---C (main)
 
 After:
 
-A---B---C---D---E (main, feature1)</code></pre>
-          <p>Git moves the <code class="inline">main</code> branch pointer forward. No merge commit is created.</p>
-        </div>
+A---B---C---D---E (main)</code></pre>
+    <p>Git simply moves the branch pointer forward. No merge commit is created.</p>
+  </div>
 
-        <div class="topic">
-          <h3>Three-way merge</h3>
-          <p>A three-way merge happens when both branches have new commits.</p>
-          <pre><code>Before:
+  <div class="topic">
+    <h3>Three-way merge</h3>
+    <p>Happens when both branches have new commits.</p>
+    <pre><code>Before:
 
 A---B---C---F (main)
          \
@@ -1289,144 +1214,380 @@ After:
 A---B---C---F---M (main)
          \       /
           D---E</code></pre>
-          <p>Git creates a merge commit (<code class="inline">M</code>) that connects both histories.</p>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s20">
-        <br>
-        <div class="section-head">
-          <span class="section-number">20</span>
-          <div>
-            <h2>Resolve Merge Conflicts</h2>
-            <p>Fix changes Git cannot automatically combine.</p>
-          </div>
-        </div>
+    <p>Git creates a merge commit (<code class="inline">M</code>) that combines both histories.</p>
+  </div>
 
-        <div class="topic">
-          <h3>Check the conflicting files</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git status</code></pre>
-          </div>
-        </div>
+  <div class="topic">
+    <h3>Merge without fast-forward</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git merge --no-ff feature1</code></pre>
+    </div>
+    <p>Creates a merge commit even when a fast-forward merge is possible.</p>
+  </div>
+</section>
+<hr>
 
-        <div class="topic">
-          <h3>Example conflict</h3>
-          <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+<section class="doc-section" id="s17">
+  <br>
+  <div class="section-head">
+    <span class="section-number">17</span>
+    <div>
+      <h2>Merge Conflicts</h2>
+      <p>Understand and resolve conflicts when Git cannot automatically combine changes.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Check conflicting files</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git status</code></pre>
+    </div>
+    <p>Shows files that have merge conflicts.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Understand conflict markers</h3>
+    <pre><code>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
 Change from main
 =======
 Change from feature1
 &gt;&gt;&gt;&gt;&gt;&gt;&gt; feature1</code></pre>
-          <ul>
-            <li><code class="inline">HEAD</code> represents the current branch.</li>
-            <li>The section below <code class="inline">=======</code> contains the incoming changes.</li>
-            <li><code class="inline">&gt;&gt;&gt;&gt;&gt;&gt;&gt; feature1</code> marks the end of the incoming changes.
-            </li>
-          </ul>
-          <p>Edit the file to keep the correct content and remove the conflict markers.</p>
-        </div>
+    <ul>
+      <li><code class="inline">HEAD</code> represents the current branch.</li>
+      <li><code class="inline">=======</code> separates the two versions.</li>
+      <li><code class="inline">feature1</code> represents the incoming branch.</li>
+    </ul>
+  </div>
 
-        <div class="topic">
-          <h3>Complete the merge</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git add filename.txt
+  <div class="topic">
+    <h3>Choose the current branch version (ours)</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git checkout --ours filename.txt
+git add filename.txt</code></pre>
+    </div>
+    <p>Keeps the current branch version of the file.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Choose the incoming branch version (theirs)</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git checkout --theirs filename.txt
+git add filename.txt</code></pre>
+    </div>
+    <p>Keeps the incoming branch version of the file.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Complete the merge</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git add filename.txt
 git commit</code></pre>
-          </div>
-          <p>Git creates a merge commit after the conflict is resolved.</p>
-        </div>
+    </div>
+    <p>After resolving all conflicts and staging the files, complete the merge commit.</p>
+  </div>
 
-        <div class="topic">
-          <h3>Cancel the merge</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git merge --abort</code></pre>
-          </div>
-          <p>Attempts to return the working tree to its state before the merge started.</p>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s21">
-        <br>
-        <div class="section-head">
-          <span class="section-number">21</span>
-          <div>
-            <h2>Delete a Branch</h2>
-            <p>Remove a feature branch when it is no longer needed.</p>
-          </div>
-        </div>
+  <div class="topic">
+    <h3>Cancel the merge</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git merge --abort</code></pre>
+    </div>
+    <p>Attempts to return the working tree to its state before the merge started.</p>
+  </div>
+</section>
+<hr>
 
-        <div class="topic">
-          <h3>Delete a merged branch</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git branch -d feature1</code></pre>
-          </div>
-          <p>Deletes the branch only if Git considers it safely merged.</p>
-        </div>
+<section class="doc-section" id="s18">
+  <br>
+  <div class="section-head">
+    <span class="section-number">18</span>
+    <div>
+      <h2>Delete Branches</h2>
+      <p>Remove local or remote branches that are no longer needed.</p>
+    </div>
+  </div>
 
-        <div class="topic">
-          <h3>Force-delete an unmerged branch</h3>
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git branch -D feature1</code></pre>
-          </div>
-          <div class="note warning">
-            <strong>Warning:</strong> Force-deleting a branch can make its unmerged commits harder to find.
-          </div>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s22">
-        <br>
-        <div class="section-head">
-          <span class="section-number">22</span>
-          <div>
-            <h2>View Branch History</h2>
-            <p>Display commits from all branches in a compact graph.</p>
-          </div>
-        </div>
+  <div class="topic">
+    <h3>Delete a merged local branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -d feature1</code></pre>
+    </div>
+    <p>Safely deletes the branch if Git considers it merged.</p>
+  </div>
 
-        <div class="topic">
-          <div class="codebox">
-            <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
-            <pre><code>git log --all --graph --oneline</code></pre>
-          </div>
-          <p>Displays commits from all branches in a compact graph.</p>
+  <div class="topic">
+    <h3>Force-delete an unmerged branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -D feature1</code></pre>
+    </div>
+    <div class="note warning">
+      <strong>Warning:</strong> This deletes the branch even if it contains unmerged commits.
+    </div>
+  </div>
 
-          <p><strong>Example:</strong></p>
-          <pre><code>*   a1b2c3d (HEAD -&gt; main) Merge feature1
+  <div class="topic">
+    <h3>Delete a remote branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git push origin --delete feature1</code></pre>
+    </div>
+    <p>Deletes the branch from the remote repository, such as GitHub.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Clean up deleted remote branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git fetch --prune</code></pre>
+    </div>
+    <p>Removes outdated remote-tracking references for branches deleted from the remote.</p>
+  </div>
+
+  <div class="note">
+    <strong>Note:</strong> You cannot delete the branch you are currently using. Switch to another branch first.
+  </div>
+</section>
+<hr>
+
+<section class="doc-section" id="s19">
+  <br>
+  <div class="section-head">
+    <span class="section-number">19</span>
+    <div>
+      <h2>Rename Branches</h2>
+      <p>Change the name of an existing local or remote branch.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>Rename the current branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -m new-name</code></pre>
+    </div>
+    <p>Renames the branch you are currently using.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Rename another local branch</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -m old-name new-name</code></pre>
+    </div>
+    <p>Renames the specified local branch without switching to it.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Rename a remote branch</h3>
+    <p>Git does not directly rename a remote branch. Rename your local branch and push the new name.</p>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code># Rename the local branch
+git branch -m old-name new-name
+
+# Push the new branch name
+git push -u origin new-name
+
+# Delete the old remote branch
+git push origin --delete old-name</code></pre>
+    </div>
+    <p>This creates the new remote branch and removes the old one.</p>
+  </div>
+</section>
+<hr>
+
+<section class="doc-section" id="s20">
+  <br>
+  <div class="section-head">
+    <span class="section-number">20</span>
+    <div>
+      <h2>Branch History</h2>
+      <p>Understand how branches and commits are connected over time.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>How branch history works</h3>
+    <p>Git branches are pointers to commits. Creating a branch does not copy the entire project. It creates a new pointer to the current commit.</p>
+    <pre><code>A---B---C (main)
+         \
+          D---E (feature1)</code></pre>
+    <ul>
+      <li><code class="inline">A, B, C</code> are commits on the main history.</li>
+      <li><code class="inline">feature1</code> starts from commit C.</li>
+      <li><code class="inline">D, E</code> are new commits on the feature branch.</li>
+      <li>Both branches share their earlier commit history.</li>
+    </ul>
+  </div>
+
+  <div class="topic">
+    <h3>Branches after merging</h3>
+    <pre><code>A---B---C---F (main)
+         \     \
+          D---E---M</code></pre>
+    <p>A merge connects the histories of the branches. The resulting history contains the commits from both branches.</p>
+  </div>
+
+  <div class="topic">
+    <h3>Important points</h3>
+    <ul>
+      <li>Every commit has a unique hash.</li>
+      <li>A branch points to a commit.</li>
+      <li>New commits move the current branch pointer forward.</li>
+      <li>Deleting a branch does not automatically delete its commits.</li>
+      <li>Merging combines branch histories.</li>
+    </ul>
+  </div>
+</section>
+<hr>
+
+<section class="doc-section" id="s21">
+  <br>
+  <div class="section-head">
+    <span class="section-number">21</span>
+    <div>
+      <h2>Common Branch Mistakes</h2>
+      <p>Understand common mistakes when working with Git branches and how to avoid them.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>1. Merging into the wrong branch</h3>
+    <p><strong>Problem:</strong> Running merge while on the wrong branch.</p>
+    <p><strong>Solution:</strong> Switch to the branch that should receive the changes first.</p>
+    <pre><code>git switch main
+git merge feature1</code></pre>
+  </div>
+
+  <div class="topic">
+    <h3>2. Deleting an unmerged branch</h3>
+    <p><strong>Problem:</strong> Using force deletion without checking for unmerged commits.</p>
+    <p><strong>Solution:</strong> Check branch history before using <code class="inline">-D</code>.</p>
+    <pre><code>git log main..feature1 --oneline</code></pre>
+  </div>
+
+  <div class="topic">
+    <h3>3. Working directly on main</h3>
+    <p><strong>Problem:</strong> Making feature changes directly on the main branch.</p>
+    <p><strong>Solution:</strong> Create a separate feature branch.</p>
+    <pre><code>git switch -c feature1</code></pre>
+  </div>
+
+  <div class="topic">
+    <h3>4. Forgetting to push a new branch</h3>
+    <p><strong>Problem:</strong> A local branch does not automatically appear on GitHub.</p>
+    <p><strong>Solution:</strong> Push it to the remote repository.</p>
+    <pre><code>git push -u origin feature1</code></pre>
+  </div>
+
+  <div class="topic">
+    <h3>5. Deleting the current branch</h3>
+    <p><strong>Problem:</strong> Trying to delete the branch you are currently using.</p>
+    <p><strong>Solution:</strong> Switch to another branch before deleting it.</p>
+    <pre><code>git switch main
+git branch -d feature1</code></pre>
+  </div>
+
+  <div class="topic">
+    <h3>6. Forgetting to check branch status</h3>
+    <p><strong>Problem:</strong> Making changes without knowing which branch is active.</p>
+    <p><strong>Solution:</strong> Check your current branch and working tree.</p>
+    <pre><code>git status
+git branch</code></pre>
+  </div>
+</section>
+<hr>
+
+<section class="doc-section" id="s22">
+  <br>
+  <div class="section-head">
+    <span class="section-number">22</span>
+    <div>
+      <h2>View Branch History</h2>
+      <p>Use Git log commands to inspect commits and visualize branch history.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <h3>View current branch history</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --oneline</code></pre>
+    </div>
+    <p>Displays commit history in a compact format.</p>
+  </div>
+
+  <div class="topic">
+    <h3>View history of all branches</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --all --oneline</code></pre>
+    </div>
+    <p>Displays commits from all branches.</p>
+  </div>
+
+  <div class="topic">
+    <h3>View branch history as a graph</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git log --all --graph --oneline --decorate</code></pre>
+    </div>
+    <p>Shows branch connections, commits, and branch names in a visual text graph.</p>
+    <p><strong>Example:</strong></p>
+    <pre><code>*   a1b2c3d (HEAD -> main) Merge feature1
 |\
-| * e4f5g6h Add new feature
+| * e4f5g6h (feature1) Add new feature
 * | i7j8k9l Fix a bug
 |/
-* m1n2o3p Initial commit
-</code></pre>
-        </div>
-      </section>
-      <hr>
-      <section class="doc-section" id="s23">
-        <br>
-        <div class="section-head">
-          <span class="section-number">23</span>
-          <div>
-            <h2>Remember</h2>
-            <p>Quick review of important branching commands.</p>
-          </div>
-        </div>
-        <div class="topic">
-          <ul>
-            <li><code class="inline">git branch</code> creates and lists branches.</li>
-            <li><code class="inline">git switch</code> changes branches.</li>
-            <li><code class="inline">git switch -c</code> creates and switches to a branch.</li>
-            <li><code class="inline">git merge</code> combines changes from another branch.</li>
-            <li><code class="inline">git merge --abort</code> cancels an unfinished merge.</li>
-            <li><code class="inline">git branch -d</code> deletes a merged branch.</li>
-            <li><code class="inline">git log --all --graph --oneline</code> shows the branch history.</li>
-          </ul>
-        </div>
-      </section>
+* m1n2o3p Initial commit</code></pre>
+  </div>
+
+  <div class="topic">
+    <h3>View branches and their latest commits</h3>
+    <div class="codebox">
+      <div class="code-top"><span>Terminal</span><button class="copy">Copy</button></div>
+      <pre><code>git branch -v</code></pre>
+    </div>
+    <p>Displays local branches with their latest commit information.</p>
+  </div>
+</section>
+<hr>
+
+<section class="doc-section" id="s23">
+  <br>
+  <div class="section-head">
+    <span class="section-number">23</span>
+    <div>
+      <h2>Remember</h2>
+      <p>Quick revision of important Git branching commands.</p>
+    </div>
+  </div>
+
+  <div class="topic">
+    <ul>
+      <li><code class="inline">git branch</code> lists local branches.</li>
+      <li><code class="inline">git switch</code> switches between branches.</li>
+      <li><code class="inline">git switch -c</code> creates and switches to a new branch.</li>
+      <li><code class="inline">git merge</code> combines changes from another branch.</li>
+      <li><code class="inline">git merge --abort</code> cancels an unfinished merge.</li>
+      <li><code class="inline">git checkout --ours</code> selects the current branch version during a conflict.</li>
+      <li><code class="inline">git checkout --theirs</code> selects the incoming branch version during a conflict.</li>
+      <li><code class="inline">git branch -d</code> safely deletes a merged branch.</li>
+      <li><code class="inline">git branch -D</code> force-deletes a branch.</li>
+      <li><code class="inline">git branch -m</code> renames a branch.</li>
+      <li><code class="inline">git push -u origin branch-name</code> publishes a branch to GitHub.</li>
+      <li><code class="inline">git push origin --delete branch-name</code> deletes a remote branch.</li>
+      <li><code class="inline">git log --all --graph --oneline</code> displays branch history.</li>
+    </ul>
+  </div>
+</section>
       <!-- 24. Compare Changes -->
 <section class="doc-section" id="s24">
   <br>

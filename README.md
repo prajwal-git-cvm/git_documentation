@@ -1177,3 +1177,302 @@ git --version
 # Show Git command help
 git help <command>
 ```
+# Introduction to Github with Git
+
+## 45. Initialize and Connect a Remote Repository
+
+```
+# Initialize Git
+git init
+
+# Rename branch
+git branch -M master
+
+# Add remote repository
+git remote add origin <repository-url>
+
+# Check remote
+git remote -v
+```
+
+## 46. Push a Local Repository to GitHub
+
+```
+# Stage and commit files
+git add .
+git commit -m "Initial commit"
+
+# Push to GitHub
+git push -u origin master
+```
+
+## 47. Handle Push Rejection
+
+```
+# Download remote changes
+git fetch origin
+
+# Merge remote changes
+git pull origin master
+
+# Push again
+git push origin master
+```
+
+## 48. Force Push
+
+```
+# Force push
+git push --force origin master
+
+# Safer force push
+git push --force-with-lease origin master
+```
+
+Warning: Force pushing can overwrite remote history.
+
+## 49. View Remote Repositories
+
+```
+# List remote repositories
+git remote
+
+# Show remote URLs
+git remote -v
+
+# Show remote details
+git remote show origin
+```
+
+## 50. Change Remote Repository URL
+
+```
+git remote set-url origin <new-repository-url>
+```
+
+## 51. Remove a Remote Repository
+
+```
+git remote remove origin
+```
+
+Removes the remote connection without deleting local files or commits.
+
+## 52. Fetch Remote Changes
+
+```
+# Fetch from origin
+git fetch origin
+
+# Fetch all remotes
+git fetch --all
+
+# View remote branches
+git branch -r
+
+# View all branches
+git branch -a
+```
+
+Downloads remote updates without merging them into the current branch.
+
+## 53. Pull Remote Changes
+
+```
+# Pull from origin
+git pull origin master
+
+# Pull with rebase
+git pull --rebase origin master
+```
+
+Downloads remote changes and integrates them into the current branch.
+
+## 54. Clone a GitHub Repository
+
+```
+git clone <repository-url>
+```
+
+Downloads the repository and creates a local copy.
+
+## 55. Clone with a Custom Directory Name
+
+```
+git clone <repository-url> my-project
+```
+
+Creates the local repository inside `my-project`.
+
+## 56. Work Inside a Cloned Repository
+
+```
+# Open the cloned repository
+cd my-project
+
+# Check repository status
+git status
+
+# View commit history
+git log --oneline
+```
+
+Run Git commands from inside the repository.
+
+## 57. Check Repository Status
+
+```
+git status
+git status -s
+git status -sb
+```
+
+Shows modified, staged, and untracked files.
+
+## 58. Commit Changes in a Cloned Repository
+
+```
+git add .
+git commit -m "Update project"
+```
+
+Saves local changes as a new commit.
+
+## 59. Amend the Latest Commit
+
+```
+git add .
+git commit --amend -m "Updated commit"
+```
+
+Replaces the latest commit and changes its commit ID.
+
+## 60. Push Changes from a Cloned Repository
+
+```
+git push origin master
+```
+
+Uploads local commits to the remote repository.
+
+## 61. Set Upstream While Pushing
+
+```
+git push -u origin master
+```
+
+Connects the local branch to the remote branch.
+
+After setting upstream:
+
+```
+git push
+git pull
+```
+
+## 62. Understand Local and Remote Branches
+
+```
+# Local branches
+git branch
+
+# Remote branches
+git branch -r
+
+# All branches
+git branch -a
+```
+
+- Local branch: Exists in your local repository.
+- Remote-tracking branch: Represents the last fetched state of a remote branch.
+- Remote branch: Exists on the remote repository.
+
+## 63. View Commit History with Branch Information
+
+```
+git log --oneline --all --graph
+```
+
+Shows commits and branch relationships.
+
+## 64. Check the Latest Commit
+
+```
+git log -1
+```
+
+Shows the latest commit details.
+
+## 65. Compare Local and Remote Commits
+
+```
+# Fetch latest remote information
+git fetch origin
+
+# Commits available locally but not remotely
+git log origin/master..master --oneline
+
+# Commits available remotely but not locally
+git log master..origin/master --oneline
+```
+
+## 66. Resolve Push Rejection
+
+```
+# Fetch remote changes
+git fetch origin
+
+# Inspect commit history
+git log --oneline --all --graph
+
+# Integrate remote changes
+git pull origin master
+
+# Push local changes
+git push origin master
+```
+
+## 67. Verify Push Results
+
+```
+# Check repository status
+git status
+
+# View latest commits
+git log --oneline -5
+
+# View local and remote branches
+git branch -vv
+```
+
+## 68. Clone and Practice with Multiple Repositories
+
+```
+# Clone a repository
+git clone <repository-url>
+
+# Clone with a custom directory
+git clone <repository-url> new-project
+
+# Enter the cloned repository
+cd new-project
+
+# Check status
+git status
+
+# View history
+git log --oneline
+```
+
+## 69. Common Clone and Push Commands
+
+| Command                           | Purpose                        |
+| --------------------------------- | ------------------------------ |
+| `git clone <url>`                 | Clone a repository             |
+| `git remote -v`                   | View remote URLs               |
+| `git fetch`                       | Download remote updates        |
+| `git pull`                        | Download and integrate changes |
+| `git push`                        | Upload local commits           |
+| `git push -u origin master`       | Push and set upstream          |
+| `git remote remove origin`        | Remove remote connection       |
+| `git remote set-url origin <url>` | Change remote URL              |
